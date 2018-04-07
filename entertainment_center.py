@@ -13,7 +13,7 @@ movies_arr = []
 # Accepts parameter movie_name from movie_list
 def movie_api(movie_name):
     # API key
-    api_key = "2de53ae81b4e8be4a67a8614e0fad933"
+    api_key = "signup for an api key"
     # To query movie details run this url using the movie_name and api_key
     # This requires requests module to be imported
     response1 = requests.get("https://api.themoviedb.org/3/search/movie?api_key="
