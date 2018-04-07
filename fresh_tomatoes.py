@@ -9,8 +9,7 @@ main_page_head = '''
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Fresh Tomatoes!</title>
-
+    <title>Love Nachos!</title>
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
@@ -19,6 +18,7 @@ main_page_head = '''
     <style type="text/css" media="screen">
         body {
             padding-top: 80px;
+            background-color: #F4F2F5;
         }
         #trailer .modal-dialog {
             margin-top: 200px;
@@ -40,8 +40,10 @@ main_page_head = '''
             padding-top: 20px;
         }
         .movie-tile:hover {
-            background-color: #EEE;
+            background-color: #948B79;
             cursor: pointer;
+            box-shadow: 5px 10px #C7C7C4;
+            color: #FFF;
         }
         .scale-media {
             padding-bottom: 56.25%;
@@ -55,6 +57,53 @@ main_page_head = '''
             left: 0;
             top: 0;
             background-color: white;
+        }
+        .container-nav {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .navbar-cust {
+            height: 10%;
+            background-color: #FFF;
+            padding-top: 10px;
+        }
+        .navbar-brand {
+            margin-top: 10px;
+            margin-left: 15px;
+            font-weight: bold;
+            font-size: 40px;
+        }
+        .tip-container .tip-story-line {
+            visibility: hidden;
+            width: 500px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 20%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tip-container .tip-story-line::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tip-container:hover .tip-story-line {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
     <script type="text/javascript" charset="utf-8">
@@ -101,13 +150,13 @@ main_page_content = '''
         </div>
       </div>
     </div>
-
     <!-- Main Page Content -->
-    <div class="container">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+    <div class="container-nav">
+      <div class="navbar navbar-cust navbar-fixed-top" role="navigation">
+        <div class="container-nav">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
+            <img src="https://cdn.dribbble.com/users/45676/screenshots/1751401/team_nacho_1x.jpg" height="10%" width="15%" />
+            <a class="navbar-brand" href="#">Love Nachos!</a>
           </div>
         </div>
       </div>
@@ -124,7 +173,10 @@ main_page_content = '''
 movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
-    <h2>{movie_title}</h2>
+    <div class="tip-container">
+        <h2>{movie_title}</h2>
+        <span class="tip-story-line">{movie_storyline}</span>
+    </div>
 </div>
 '''
 
@@ -145,7 +197,8 @@ def create_movie_tiles_content(movies):
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=trailer_youtube_id,
+            movie_storyline=movie.story_line
         )
     return content
 
@@ -165,3 +218,4 @@ def open_movies_page(movies):
     # open the output file in the browser (in a new tab, if possible)
     url = os.path.abspath(output_file.name)
     webbrowser.open('file://' + url, new=2)
+
